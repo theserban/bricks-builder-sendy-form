@@ -205,10 +205,10 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
         $gdpr_consent_text = !empty($this->settings['gdpr_consent_text']) ? $this->settings['gdpr_consent_text'] : "I agree to the " . esc_html($site_title) . " Privacy Policy";
 
         if ($gdpr_field_type === 'checkbox') {
-            $gdpr_consent_field = "<input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span>";
+            $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
         } else {
             // For hidden field, render without the consent text
-            $gdpr_consent_field = "<input type=\"hidden\" name=\"gdpr\" id=\"gdpr\" value=\"1\" />"; // Assuming value="1" signifies consent given
+            $gdpr_consent_field = "<input type=\"hidden\" name=\"gdpr\" id=\"gdpr\" value=\"1\" />";
         }
 
         // Ensure form_action_url starts with https://
