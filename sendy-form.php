@@ -11,7 +11,7 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
 
     // Return localized element label
     public function get_label() {
-        return esc_html__('Subscription Form', 'bricks');
+        return esc_html__('Sendy Form', 'bricks');
     }
 
     public function set_control_groups() {
