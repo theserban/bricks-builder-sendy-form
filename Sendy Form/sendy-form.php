@@ -263,68 +263,69 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
         }
     }
 
-    // Render element HTML
     public function render() {
-        $post_title = get_the_title();
-        $site_title = get_bloginfo('name');
-        $list_id = !empty($this->settings['list_id']) ? $this->settings['list_id'] : '';
-        $submit_value = !empty($this->settings['submit_value']) ? $this->settings['submit_value'] : 'Send';
-        $email_placeholder = !empty($this->settings['email_placeholder']) ? $this->settings['email_placeholder'] : 'Email goes here...';
-        $name_placeholder = !empty($this->settings['name_placeholder']) ? $this->settings['name_placeholder'] : 'Your name here...';
-        $email_label = !empty($this->settings['email_label']) ? $this->settings['email_label'] : 'Email';
-        $name_label = !empty($this->settings['name_label']) ? $this->settings['name_label'] : 'Name';
-        $name_field_type = !empty($this->settings['name_field_type']) ? $this->settings['name_field_type'] : 'text';
-        $phone_placeholder = !empty($this->settings['phone_placeholder']) ? $this->settings['phone_placeholder'] : 'Your phone here...';
-        $phone_label = !empty($this->settings['phone_label']) ? $this->settings['phone_label'] : 'Phone';
-        $phone_field_type = !empty($this->settings['phone_field_type']) ? $this->settings['phone_field_type'] : 'hidden';
-        $gdpr_field_type = !empty($this->settings['gdpr_field_type']) ? $this->settings['gdpr_field_type'] : 'checkbox';
-        $gdpr_consent_text = !empty($this->settings['gdpr_consent_text']) ? $this->settings['gdpr_consent_text'] : "I agree to the " . esc_html($site_title) . " Privacy Policy";
-        $hide_labels = !empty($this->settings['hide_labels']) ? $this->settings['hide_labels'] : false;
-      
-        $email_label_style = $hide_labels ? 'style="display: none;"' : '';
-        $name_label_style = ($hide_labels || $name_field_type === 'hidden') ? 'style="display: none;"' : '';
-        $phone_label_style = ($hide_labels || $phone_field_type === 'hidden') ? 'style="display: none;"' : '';
-      
-        $button_style = !empty($this->settings['button_style']) ? $this->settings['button_style'] : '';
-        // Determine the button size class
-        $button_size = !empty($this->settings['button_size']) ? $this->settings['button_size'] : '';
-        // Combine the base class, style class, and size class
-        $button_class = "bricks-button " . esc_attr($button_style) . " " . esc_attr($button_size);
+    $post_title = get_the_title();
+    $site_title = get_bloginfo('name');
+    $list_id = !empty($this->settings['list_id']) ? $this->settings['list_id'] : '';
+    $submit_value = !empty($this->settings['submit_value']) ? $this->settings['submit_value'] : 'Send';
+    $email_placeholder = !empty($this->settings['email_placeholder']) ? $this->settings['email_placeholder'] : 'Email goes here...';
+    $name_placeholder = !empty($this->settings['name_placeholder']) ? $this->settings['name_placeholder'] : 'Your name here...';
+    $email_label = !empty($this->settings['email_label']) ? $this->settings['email_label'] : 'Email';
+    $name_label = !empty($this->settings['name_label']) ? $this->settings['name_label'] : 'Name';
+    $name_field_type = !empty($this->settings['name_field_type']) ? $this->settings['name_field_type'] : 'text';
+    $phone_placeholder = !empty($this->settings['phone_placeholder']) ? $this->settings['phone_placeholder'] : 'Your phone here...';
+    $phone_label = !empty($this->settings['phone_label']) ? $this->settings['phone_label'] : 'Phone';
+    $phone_field_type = !empty($this->settings['phone_field_type']) ? $this->settings['phone_field_type'] : 'hidden';
+    $gdpr_field_type = !empty($this->settings['gdpr_field_type']) ? $this->settings['gdpr_field_type'] : 'checkbox';
+    $gdpr_consent_text = !empty($this->settings['gdpr_consent_text']) ? $this->settings['gdpr_consent_text'] : "I agree to the " . esc_html($site_title) . " Privacy Policy";
+    $hide_labels = !empty($this->settings['hide_labels']) ? $this->settings['hide_labels'] : false;
 
-        if ($gdpr_field_type === 'checkbox') {
-            $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
-        } else {
-            $gdpr_consent_field = "<input type=\"hidden\" name=\"gdpr\" id=\"gdpr\" value=\"1\" />";
-        }
+    $email_label_style = $hide_labels ? 'style="display: none;"' : '';
+    $name_label_style = ($hide_labels || $name_field_type === 'hidden') ? 'style="display: none;"' : '';
+    $phone_label_style = ($hide_labels || $phone_field_type === 'hidden') ? 'style="display: none;"' : '';
+    
+    // New logic to hide divs based on field type
+    $name_div_style = $name_field_type === 'hidden' ? 'style="display: none;"' : '';
+    $phone_div_style = $phone_field_type === 'hidden' ? 'style="display: none;"' : '';
 
-        $form_action_url_raw = !empty($this->settings['form_action_url']) ? $this->settings['form_action_url'] : '';
-        $form_action_url = $this->ensureHttps($form_action_url_raw);
+    $button_style = !empty($this->settings['button_style']) ? $this->settings['button_style'] : '';
+    $button_size = !empty($this->settings['button_size']) ? $this->settings['button_size'] : '';
+    $button_class = "bricks-button " . esc_attr($button_style) . " " . esc_attr($button_size);
 
-        $form = "<form class=\"subscription-form\" action=\"{$form_action_url}\" method=\"POST\" accept-charset=\"utf-8\">
-            <div class=\"email\">
-            <label for=\"email\" {$email_label_style}>{$email_label}</label>
-            <input type=\"email\" placeholder=\"{$email_placeholder}\" name=\"email\" id=\"email\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$\" required/>
-            </div>
-            <div class=\"name\">    
-                <label for=\"name\" {$name_label_style}>{$name_label}</label>
-                <input type=\"{$name_field_type}\" placeholder=\"{$name_placeholder}\" name=\"name\" id=\"name\" " . ($name_field_type === 'text' ? 'required' : '') . "/>
-            </div>
-            <div class=\"phone\">
-                <label for=\"phone\" {$phone_label_style}>{$phone_label}</label>
-                <input type=\"{$phone_field_type}\" placeholder=\"{$phone_placeholder}\" name=\"phone\" id=\"phone\" pattern=\"[0-9]+\" required />
-            </div> 
-            <div style=\"display:none;\">
-            <input type=\"hidden\" name=\"Source\" id=\"Source\" value=\"" . esc_attr($post_title) . "\"/>
-                <label for=\"hp\">HP</label><br/>
-                <input type=\"text\" name=\"hp\" id=\"hp\"/>
-            </div>
-            <input type=\"hidden\" name=\"list\" value=\"" . esc_attr($list_id) . "\"/>
-            <input type=\"hidden\" name=\"subform\" value=\"yes\"/>
-            {$gdpr_consent_field}
-             <button type=\"submit\" name=\"submit\" id=\"submit\" class=\"{$button_class}\">{$submit_value}</button>
-        </form>";
+    if ($gdpr_field_type === 'checkbox') {
+        $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
+    } else {
+        $gdpr_consent_field = "<input type=\"hidden\" name=\"gdpr\" id=\"gdpr\" value=\"1\" />";
+    }
 
-        echo $form;
+    $form_action_url_raw = !empty($this->settings['form_action_url']) ? $this->settings['form_action_url'] : '';
+    $form_action_url = $this->ensureHttps($form_action_url_raw);
+
+    $form = "<form class=\"subscription-form\" action=\"{$form_action_url}\" method=\"POST\" accept-charset=\"utf-8\">
+        <div class=\"email\">
+        <label for=\"email\" {$email_label_style}>{$email_label}</label>
+        <input type=\"email\" placeholder=\"{$email_placeholder}\" name=\"email\" id=\"email\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$\" required/>
+        </div>
+        <div class=\"name\" {$name_div_style}>    
+            <label for=\"name\" {$name_label_style}>{$name_label}</label>
+            <input type=\"{$name_field_type}\" placeholder=\"{$name_placeholder}\" name=\"name\" id=\"name\" " . ($name_field_type === 'text' ? 'required' : '') . "/>
+        </div>
+        <div class=\"phone\" {$phone_div_style}>
+            <label for=\"phone\" {$phone_label_style}>{$phone_label}</label>
+            <input type=\"{$phone_field_type}\" placeholder=\"{$phone_placeholder}\" name=\"phone\" id=\"phone\" pattern=\"[0-9]+\" required />
+        </div> 
+        <div style=\"display:none;\">
+        <input type=\"hidden\" name=\"Source\" id=\"Source\" value=\"" . esc_attr($post_title) . "\"/>
+            <label for=\"hp\">HP</label><br/>
+            <input type=\"text\" name=\"hp\" id=\"hp\"/>
+        </div>
+        <input type=\"hidden\" name=\"list\" value=\"" . esc_attr($list_id) . "\"/>
+        <input type=\"hidden\" name=\"subform\" value=\"yes\"/>
+        {$gdpr_consent_field}
+         <button type=\"submit\" name=\"submit\" id=\"submit\" class=\"{$button_class}\">{$submit_value}</button>
+    </form>";
+
+    echo $form;
     }
 }
 
