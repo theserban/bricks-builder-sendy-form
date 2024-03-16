@@ -13,8 +13,13 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
     public function get_label() {
         return esc_html__('Sendy Form', 'bricks');
     }
-
+  
     public function set_control_groups() {
+         $this->control_groups['email'] = [
+            'title' => esc_html__('Email', 'bricks'),
+            'tab'   => 'content',
+        ];
+      
         $this->control_groups['name'] = [
             'title' => esc_html__('Name', 'bricks'),
             'tab'   => 'content',
@@ -22,11 +27,6 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
 
         $this->control_groups['phone'] = [
             'title' => esc_html__('Phone', 'bricks'),
-            'tab'   => 'content',
-        ];
-
-        $this->control_groups['email'] = [
-            'title' => esc_html__('Email', 'bricks'),
             'tab'   => 'content',
         ];
 
@@ -58,6 +58,13 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
             'type'        => 'text',
             'placeholder' => 'This is the subscribe link of your Sendy install',
         ];
+      
+      $this->controls['hide_labels'] = [
+    'tab'         => 'content',
+    'label'       => esc_html__('Hide Labels', 'bricks'),
+    'type'        => 'checkbox',
+    'default'     => true, // Set to true if you want labels to be hidden by default
+];
 
         // Email Label
         $this->controls['email_label'] = [
@@ -191,21 +198,25 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
         $submit_value = !empty($this->settings['submit_value']) ? $this->settings['submit_value'] : 'Send';
         $email_placeholder = !empty($this->settings['email_placeholder']) ? $this->settings['email_placeholder'] : 'Email goes here...';
         $name_placeholder = !empty($this->settings['name_placeholder']) ? $this->settings['name_placeholder'] : 'Your name here...';
-        $email_label = !empty($this->settings['email_label']) ? $this->settings['email_label'] : '';
-        $name_label = !empty($this->settings['name_label']) ? $this->settings['name_label'] : '';
+        $email_label = !empty($this->settings['email_label']) ? $this->settings['email_label'] : 'Email';
+        $name_label = !empty($this->settings['name_label']) ? $this->settings['name_label'] : 'Name';
         $name_field_type = !empty($this->settings['name_field_type']) ? $this->settings['name_field_type'] : 'text';
-        $name_label_visibility = $name_field_type === 'text' ? '' : 'style="display: none;"';
         $source_name = !empty($this->settings['source_name']) ? $this->settings['source_name'] : 'Source';
         $phone_placeholder = !empty($this->settings['phone_placeholder']) ? $this->settings['phone_placeholder'] : 'Your phone here...';
-        $phone_label = !empty($this->settings['phone_label']) ? $this->settings['phone_label'] : '';
+        $phone_label = !empty($this->settings['phone_label']) ? $this->settings['phone_label'] : 'Phone';
         $phone_field_type = !empty($this->settings['phone_field_type']) ? $this->settings['phone_field_type'] : 'text';
-        $phone_label_visibility = $phone_field_type === 'text' ? '' : 'style="display: none;"';
         $gdpr_field_type = !empty($this->settings['gdpr_field_type']) ? $this->settings['gdpr_field_type'] : 'checkbox';
-        $gdpr_label_visibility = $gdpr_field_type === 'text' ? '' : 'style="display: none;"';
         $gdpr_consent_text = !empty($this->settings['gdpr_consent_text']) ? $this->settings['gdpr_consent_text'] : "I agree to the " . esc_html($site_title) . " Privacy Policy";
+   $hide_labels = !empty($this->settings['hide_labels']) ? $this->settings['hide_labels'] : false;
 
+    $email_label_style = $hide_labels ? 'style="display: none;"' : '';
+    $name_label_style = ($hide_labels || $name_field_type === 'hidden') ? 'style="display: none;"' : '';
+    $phone_label_style = ($hide_labels || $phone_field_type === 'hidden') ? 'style="display: none;"' : '';
+
+      
+      
         if ($gdpr_field_type === 'checkbox') {
-            $gdpr_consent_field = "<input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span>";
+            $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
         } else {
             // For hidden field, render without the consent text
             $gdpr_consent_field = "<input type=\"hidden\" name=\"gdpr\" id=\"gdpr\" value=\"1\" />"; // Assuming value="1" signifies consent given
@@ -217,11 +228,11 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
 
         // Adjusted form HTML to use variable type for the name field and conditional label visibility
         $form = "<form class=\"subscription-form\" action=\"{$form_action_url}\" method=\"POST\" accept-charset=\"utf-8\">
-            <label for=\"email\">{$email_label}</label>
+            <label for=\"email\" {$email_label_style}>{$email_label}</label>
             <input type=\"email\" placeholder=\"{$email_placeholder}\" name=\"email\" id=\"email\" required/>
-            <label for=\"name\" {$name_label_visibility}>{$name_label}</label>
+            <label for=\"name\" {$name_label_style}>{$name_label}</label>
             <input type=\"{$name_field_type}\" placeholder=\"{$name_placeholder}\" name=\"name\" id=\"name\" " . ($name_field_type === 'text' ? 'required' : '') . "/>
-            <label for=\"phone\" {$phone_label_visibility}>{$phone_label}</label>
+             <label for=\"phone\" {$phone_label_style}>{$phone_label}</label>
             <input type=\"{$phone_field_type}\" placeholder=\"{$phone_placeholder}\" name=\"phone\" id=\"phone\" " . ($phone_field_type === 'text' ? 'required' : '') . " />
             <input type=\"hidden\" name=\"Source\" id=\"Source\" value=\"" . esc_attr($post_title) . "\"/>
             <div style=\"display:none;\">
