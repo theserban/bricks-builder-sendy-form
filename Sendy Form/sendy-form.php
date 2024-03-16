@@ -289,7 +289,7 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
         // Determine the button size class
         $button_size = !empty($this->settings['button_size']) ? $this->settings['button_size'] : '';
         // Combine the base class, style class, and size class
-        $button_class = "brxe-button " . esc_attr($button_style) . " " . esc_attr($button_size);
+        $button_class = "bricks-button " . esc_attr($button_style) . " " . esc_attr($button_size);
 
         if ($gdpr_field_type === 'checkbox') {
             $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
