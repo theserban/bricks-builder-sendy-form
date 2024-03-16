@@ -96,7 +96,7 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
             'group' => 'email',
             'label' => esc_html__('Email Placeholder', 'bricks'),
             'type' => 'text',
-            'default' => 'Email goes here...',
+            'default' => 'Your email here...',
             'placeholder' => 'The placeholder text for the email address field',
         ];
 
