@@ -5,13 +5,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Prefix_Element_Subscription_Form extends \Bricks\Element {
+class Element_Subscription_Form extends \Bricks\Element {
     
     // Element properties
     public $category = 'general';
-    public $name = 'prefix-subscription-form';
+    public $name = 'subscription-form';
     public $icon = 'ti-email';
-    public $css_selector = '.prefix-subscription-form-wrapper';
+    public $css_selector = '.subscription-form';
 
     // Return localized element label
     public function get_label() {
@@ -72,6 +72,14 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
             'type' => 'text',
             'placeholder' => 'This is the subscribe link of your Sendy: [install_url/subscribe]',
         ];
+      
+       // Form Class
+       $this->controls['custom_form_class'] = [
+    'tab' => 'content',
+    'label' => esc_html__('Custom Form Class', 'bricks'),
+    'type' => 'text',
+    'placeholder' => 'Enter custom class name here',
+];
 
         $this->controls['hide_labels'] = [
             'tab' => 'content',
@@ -291,6 +299,7 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
     $button_style = !empty($this->settings['button_style']) ? $this->settings['button_style'] : '';
     $button_size = !empty($this->settings['button_size']) ? $this->settings['button_size'] : '';
     $button_class = "bricks-button " . esc_attr($button_style) . " " . esc_attr($button_size);
+    $custom_form_class = !empty($this->settings['custom_form_class']) ? $this->settings['custom_form_class'] : '';
 
     if ($gdpr_field_type === 'checkbox') {
         $gdpr_consent_field = "<label><input type=\"checkbox\" name=\"gdpr\" id=\"gdpr\" required /><span>{$gdpr_consent_text}</span></label>";
@@ -301,7 +310,7 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
     $form_action_url_raw = !empty($this->settings['form_action_url']) ? $this->settings['form_action_url'] : '';
     $form_action_url = $this->ensureHttps($form_action_url_raw);
 
-    $form = "<form class=\"subscription-form\" action=\"{$form_action_url}\" method=\"POST\" accept-charset=\"utf-8\">
+    $form = "<form class=\"subscription-form {$custom_form_class}\" action=\"{$form_action_url}\" method=\"POST\" accept-charset=\"utf-8\">
         <div class=\"email\">
         <label for=\"email\" {$email_label_style}>{$email_label}</label>
         <input type=\"email\" placeholder=\"{$email_placeholder}\" name=\"email\" id=\"email\" pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$\" required/>
@@ -327,15 +336,14 @@ class Prefix_Element_Subscription_Form extends \Bricks\Element {
 
     echo $form;
     }
-}
+  }
 
-// Register the custom element
 add_action('init', function () {
     if (class_exists('\Bricks\Elements')) {
         \Bricks\Elements::register_element(
-            __DIR__ . '/element-subscription-form.php',
-            'prefix-subscription-form',
-            'Prefix_Element_Subscription_Form'
+            __DIR__ . '/sendy-form.php',
+            'subscription-form',
+            'Element_Subscription_Form'
         );
     }
 }, 11);
