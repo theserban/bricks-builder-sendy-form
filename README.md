@@ -16,7 +16,7 @@ add_action( 'init', function() {
   }
 }, 11 );
 ```
-2.Now, grab the sendy-form.php file and cozy it into the elements folder within your child theme's directory. 
+2.Now, grab the sendy-form.php & sendy-form.css files and cozy them into the elements folder within your child theme's directory. 
 
 <img width="354" alt="Screenshot 2024-03-15 at 23 57 01" src="https://github.com/theserban/bricks-builder-sendy-form/assets/134176220/8bf4430f-2a53-48ee-aab3-0d79e0c66eb5">
 
@@ -24,6 +24,7 @@ add_action( 'init', function() {
 
 - Source: This little field will help you keep track of where your lovely subscribers come from (Optional).
 - Phone: Gathering phone numbers gives you a direct line to chat with your subscribers (Optional).
+
 <img width="875" alt="Screenshot 2024-03-15 at 23 58 58" src="https://github.com/theserban/bricks-builder-sendy-form/assets/134176220/99148447-421b-4d8c-95eb-e787e3b9f37d">
 
 4.And of course, we want to stay friends with everyone by respecting their privacy choices and selecting the gdpr checkbox from "Subscribe Form" (Optional).
