@@ -1,130 +1,130 @@
 .subscription-form {
-    /* FORM CONTROLS */
-    --form-width: initial;
-    --form-gap: initial;
-    --form-accent: initial;
-    --form-accent-hover: initial;
-    --form-transition: initial;
+  /* FORM CONTROLS */
+  --form-width: initial;
+  --form-gap: initial;
+  --form-accent: initial;
+  --form-accent-hover: initial;
+  --form-transition: initial;
     
-      /* FORM FIELDS CONTROLS */
-      --fields-padding: initial;
-      --fields-background: initial;
-      --fields-border: initial;
-      --fields-border-radius: initial;
-      --fields-text-color: initial;
+	/* FORM FIELDS CONTROLS */
+	--fields-padding: initial;
+	--fields-background: initial;
+	--fields-border: initial;
+	--fields-border-radius: initial;
+	--fields-text-color: initial;
     
-    --placeholder-text-color: initial;
+  --placeholder-text-color: initial;
     
-      /* LABEL & CONSENT LABEL CONTROLS */
-    --label-text-color: initial;
-    --label-gap: initial;
-    --label-font-size: initial;
+	/* LABEL & CONSENT LABEL CONTROLS */
+  --label-text-color: initial;
+  --label-gap: initial;
+  --label-font-size: initial;
     
-      /* FORM FIELD CONTROLS */
-      --order-email: initial;
-      --order-name: initial;
-      --order-phone: initial;
-      --order-consent: initial;
-      --order-submit: initial;
+	/* FORM FIELD CONTROLS */
+	--order-email: initial;
+	--order-name: initial;
+	--order-phone: initial;
+	--order-consent: initial;
+	--order-submit: initial;
     
-    --width-email: initial;
-    --width-name: initial;
-    --width-phone: initial;
-       --width-consent: initial;
-    --width-submit: initial;
-  }
+  --width-email: initial;
+  --width-name: initial;
+  --width-phone: initial;
+	--width-consent: initial;
+  --width-submit: initial;
+}
   
-  /* FORM PROPERTIES */ 
-  .subscription-form {
-      display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+/* FORM PROPERTIES */ 
+.subscription-form {
+	display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: var(--form-gap, .5rem);
+    
+  width: 100%;
+  max-width: var(--form-width, 100%);
+    
+	/* NAME FIELD PROPERTIES */
+	& .name {
+		order: var(--order-name);
+		width: var(--width-name, 100%);
+	}
+      
+	/* EMAIL FIELD PROPERTIES */
+	& .email {
+		order: var(--order-email);
+		width: var(--width-email, 100%);
+	}
+      
+	/* PHONE FIELD PROPERTIES */ 
+	& .phone {
+    order: var(--order-phone);
+    width: var(--width-phone, 100%);
+	}
+    
+	/* SUBMIT BUTTON PROPERTIES */ 
+	& button#submit {
+		line-height: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+		align-self: flex-end;
+    order: var(--order-submit);
+    width: var(--width-submit, 100%);
+    min-width: fit-content;
+	}
+  
+	/* INPUT FIELD PROPERTIES */ 
+	& input {
+    padding: var(--fields-padding, .5rem 1rem);
+    background: var(--fields-background, whitesmoke);
+    color: var(--fields-text-color, grey);
+    border: var(--fields-border, 1px solid lightgrey);
+    border-radius: var(--fields-border-radius, 0);
+    line-height: 1;
+      
+		/* PLACEHOLDER PROPERTIES */ 
+		&::placeholder {
+			color: var(--placeholder-text-color, lightgrey);
+		}
+	}
+    
+  /* LABELS PROPERTIES */ 
+  & label {
+    display: flex;
     justify-content: flex-start;
-    gap: var(--form-gap, .5rem);
+    align-items: flex-start;
+    gap: var(--label-gap, .25rem);
     
     width: 100%;
-       max-width: var(--form-width, 100%);
+      
+    font-size: var(--label-font-size, 1rem);
+    color: var(--label-text-color, grey);
     
-      /* NAME FIELD PROPERTIES */
-      & .name {
-          order: var(--order-name);
-          width: var(--width-name, 100%);
-      }
+    cursor: pointer;
       
-      /* EMAIL FIELD PROPERTIES */
-      & .email {
-          order: var(--order-email);
-          width: var(--width-email, 100%);
-      }
-      
-      /* PHONE FIELD PROPERTIES */ 
-      & .phone {
-          order: var(--order-phone);
-          width: var(--width-phone, 100%);
-      }
-    
-      /* SUBMIT BUTTON PROPERTIES */ 
-      & button#submit {
-          line-height: unset;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-      order: var(--order-submit);
-          width: var(--width-submit, 100%);
-          min-width: fit-content;
-      }
-  
-      /* INPUT FIELD PROPERTIES */ 
-    & input {
-        padding: var(--fields-padding, .5rem 1rem);
-          background: var(--fields-background, whitesmoke);
-      color: var(--fields-text-color, grey);
-      border: var(--fields-border, 1px solid lightgrey);
-      border-radius: var(--fields-border-radius, 0);
-          line-height: 1;
-      
-          /* PLACEHOLDER PROPERTIES */ 
-      &::placeholder {
-          color: var(--placeholder-text-color, lightgrey);
+    /* CONSENT PROPERTIES */ 
+    &:has(input[type="checkbox"]){
+      order: var(--order-consent);
+      width: var(--width-consent, 100%);
+        
+      /* CHECKBOX PROPERTIES */ 
+      & input[type="checkbox"] {
+        accent-color: var(--form-accent, royalblue);
+        cursor: pointer;
+        margin-block-start: calc(var(--label-font-size, 1rem) / 4);
       }
     }
-    
-      /* LABELS PROPERTIES */ 
-    & label {
-        display: flex;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: var(--label-gap, .25rem);
       
-      width: 100%;
-      
-      font-size: var(--label-font-size, 1rem);
-      color: var(--label-text-color, grey);
-      
-      cursor: pointer;
-      
-          /* CONSENT PROPERTIES */ 
-      &:has(input[type="checkbox"]){
-        order: var(--order-consent);
-        width: var(--width-consent, 100%);
-          
-              /* CHECKBOX PROPERTIES */ 
-        & input[type="checkbox"] {
-          accent-color: var(--form-accent, royalblue);
-          cursor: pointer;
-          margin-block-start: calc(var(--label-font-size, 1rem) / 4);
-        }
-      }
-      
-          /* PRIVACY POLICY LINK PROPERTIES */ 
+      /* PRIVACY POLICY LINK PROPERTIES */ 
       & a {
         transition: var(--form-transition);
-          text-decoration: underline;
+        text-decoration: underline;
         color: var(--form-accent, royalblue);
         
-        
         &:hover {
-            color: var(--form-accent-hover, dodgerblue);
+        	color: var(--form-accent-hover, dodgerblue);
         }
       }
     }
